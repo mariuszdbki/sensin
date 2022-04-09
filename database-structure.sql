@@ -14,7 +14,7 @@ create table if not exists readings (
   symbol_code text, 
   value text, 
   reading_timestamp datetime, 
-  record_timestamp datetime default datetime('now')
+  record_timestamp datetime default current_timestamp
 ); 
 
 create table if not exists reading_log (
