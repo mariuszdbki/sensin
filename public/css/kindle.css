@@ -1,0 +1,33 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0px;
+  padding: 0px;
+}
+
+h1 {
+  text-align: center;
+}
+
+img.icon {
+  width: 100px;
+  height: 100px;
+}
+
+table.data-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0px 30px;
+}
+
+table.data-table td {
+  text-align: center;
+  font-size: 50pt;
+}
+
+table.data-table td.data-cell {
+  font-weight: bold;
+  text-align: right;
+}
