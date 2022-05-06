@@ -10,6 +10,7 @@ create table if not exists symbols (
 
 create table if not exists readings (
   id integer primary key autoincrement, 
+  reading_log_id not null,
   device_id integer not null, 
   symbol_code text, 
   value text, 
@@ -20,6 +21,6 @@ create table if not exists readings (
 create table if not exists reading_log (
   id integer primary key autoincrement, 
   device_id integer, 
-  status text,
-  hash text
+  hash text,
+  reading_timestamp datetime default current_timestamp
 ); 

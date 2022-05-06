@@ -50,29 +50,37 @@ function addSymbol(code, name) {
 
 function getLastReadingLog(deviceId) {
   return new Promise(resolve => {
-    db.all(
+    db.get(
       'select * from reading_log where device_id = ? order by reading_timestamp desc limit 1', 
       [deviceId], 
       function (err, rows) {
-        resolve(rows[0]);
+        resolve(rows);
       }
     );
   });
 }
 
 function addReadingLog(deviceId, hash) {
-  db.run(
-    'insert into reading_log (device_id, hash) '+
-    'values (?, ?)',
-    [deviceId, hash]
-  );
+  return new Promise(resolve => {
+    db.run(
+      'insert into reading_log (device_id, hash) '+
+      'values (?, ?)',
+      [deviceId, hash],
+      function (err) {
+        if (err === null) {
+          resolve(this.lastID);
+        }
+      }
+    );
+  });
+  
 }
 
-function addReading(deviceId, symbolCode, value, readingTimestamp) {
+function addReading(deviceId, readingLogId, symbolCode, value, readingTimestamp) {
   db.run(
-    'insert into readings (device_id, symbol_code, value, reading_timestamp) '+
-    'values (?, ?, ?, ?)',
-    [deviceId, symbolCode, value, readingTimestamp]
+    'insert into readings (device_id, reading_log_id, symbol_code, value, reading_timestamp) '+
+    'values (?, ?, ?, ?, ?)',
+    [deviceId, readingLogId, symbolCode, value, readingTimestamp]
   );
 }
 

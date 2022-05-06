@@ -29,9 +29,9 @@ async function parseDeviceRecentHistory(deviceId, payload) {
   let lastReadingLog = await db.getLastReadingLog(deviceId);
   if (lastReadingLog?.hash != hash) {
     console.log('Dostępne są najnowsze dane! Zapiszemy sobie.');
-    db.addReadingLog(deviceId, hash);
+    let newReadingLogId = await db.addReadingLog(deviceId, hash);
     for (let value of payload.deviceDetails.lastValues) {
-      parseSymbolData(deviceId, value.values[0]);
+      parseSymbolData(deviceId, newReadingLogId, value.values[0]);
     }
   }
   else {
@@ -44,12 +44,12 @@ function computeReadingLogHash(readingData) {
 }
 
 // @todo: check if readings from specified time are already in db
-function parseSymbolData(deviceId, data) {
+function parseSymbolData(deviceId, readingLogId, data) {
   if (! (data.symbol in symbols) ) {
     console.log(`Musimy dodać nowy symbol ${data.symbol}`);
     symbols[data.symbol] = {code: data.symbol, name: data.symbol};
     db.addSymbol(data.symbol, data.symbol);
   }
   console.log(`Dodaję odczyt ${data.symbol} = ${data.value}`)
-  db.addReading(deviceId, data.symbol, data.value, data.date);
+  db.addReading(deviceId, readingLogId, data.symbol, data.value, data.date);
 }
