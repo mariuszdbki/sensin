@@ -19,7 +19,7 @@ create table if not exists readings (
 
 create table if not exists reading_log (
   id integer primary key autoincrement, 
-  reading_url text, 
   device_id integer, 
-  status text
+  status text,
+  hash text
 ); 
