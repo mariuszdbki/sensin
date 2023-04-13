@@ -96,4 +96,16 @@ function getDeviceReadings(deviceId) {
   });
 }
 
+function getDeviceReadingsFromLog(deviceId, readingLogId) {
+  return new Promise(resolve => {
+    db.all(
+      'select * from readings where device_id = ? and reading_log_id = ? order by reading_timestamp desc', 
+      [deviceId, readingLogId], 
+      function (err, rows) {
+        resolve(rows);
+      }
+    );
+  });
+}
+
 export { db, getDeviceList, getSymbolList, addSymbol, addReading, getDeviceReadings, getSymbolMap, getLastReadingLog, addReadingLog };
